@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+  xmlns:android="http://schemas.android.com/apk/res/android"
+  android:layout_width="match_parent"
+  android:layout_height="wrap_content"
+  android:orientation="vertical"
+  android:background="#ffffff">
+  
+  	<TextView
+  	 android:text="title"
+  	 android:id="@+id/exception_title"
+	 android:layout_width="fill_parent"
+     android:layout_height="wrap_content"
+     android:textAppearance="?android:attr/textAppearanceLarge"
+     android:gravity="center_vertical"
+     android:textColor="#99CC00"
+  	/>
+
+  	<TextView
+  	 android:text="body"
+  	 android:id="@+id/exception_text"
+	 android:layout_width="fill_parent"
+     android:layout_height="wrap_content"
+     android:textColor="#000000"
+  	/> 
+  	
+</LinearLayout>
