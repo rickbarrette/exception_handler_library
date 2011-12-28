@@ -191,6 +191,7 @@ or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>na
         public static final int send=0x7f040003;
         public static final int sending=0x7f040002;
         public static final int sorry=0x7f040001;
+        public static final int there_was_an_error=0x7f040008;
         public static final int version=0x7f040005;
     }
     public static final class style {

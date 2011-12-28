@@ -6,37 +6,30 @@
  */
 package com.TwentyCodes.android.ExceptionReportViewer;
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
-
-import org.apache.http.client.ClientProtocolException;
-import org.apache.http.client.methods.HttpGet;
-import org.apache.http.impl.client.DefaultHttpClient;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import com.TwentyCodes.android.exception.ExceptionReportActivity;
-import com.TwentyCodes.android.exception.Report;
-
 import android.content.Intent;
-import android.os.Handler;
-import android.os.Message;
+import android.os.Bundle;
 import android.support.v4.app.ListFragment;
+import android.support.v4.app.LoaderManager;
+import android.support.v4.content.Loader;
 import android.view.View;
 import android.widget.ListView;
 import android.widget.Toast;
+
+import com.TwentyCodes.android.exception.ExceptionReportActivity;
+import com.TwentyCodes.android.exception.Report;
 
 /**
  * This fragment will be used to display a list of exception reports to the user
  * @author ricky barrette
  */
-public class ReportListFragment extends ListFragment {
+public class ReportListFragment extends ListFragment implements LoaderManager.LoaderCallbacks<JSONObject> {
 
-		protected static final int DOWNLOADED_REPORTS = 0;
-	protected static final int ERROR = 1;
 	private JSONArray mReports;
+	private String mUrl;
 
 	/**
 	 * Creates a new ReportListFragment
@@ -44,91 +37,19 @@ public class ReportListFragment extends ListFragment {
 	 * @author ricky barrette
 	 */
 	public ReportListFragment(final String url) {
-		
-		final Handler handler = new Handler(){
-
-			/**
-			 * (non-Javadoc)
-			 * @see android.os.Handler#handleMessage(android.os.Message)
-			 */
-			@Override
-			public void handleMessage(Message msg) {
-				switch(msg.what){
-					case DOWNLOADED_REPORTS:
-					try {
-						parseJSON((String) msg.obj);
-					} catch (JSONException e) {
-						ReportListFragment.this.setEmptyText(e.getMessage());
-						e.printStackTrace();
-					}
-						break;
-					case ERROR:
-						ReportListFragment.this.setEmptyText((String) msg.obj);
-						break;
-						
-				}
-				super.handleMessage(msg);
-			}
-			
-		};
-		
-		new Thread(new Runnable(){
-			@Override
-			public void run(){
-				/*
-				 * Here we will try to download and parse the reports from the server
-				 * if there is any errors, the user is notified via the list's empty text view
-				 */
-				try {
-					handler.sendMessage(handler.obtainMessage(DOWNLOADED_REPORTS, downloadJSON(url)));
-				} catch (IllegalStateException e) {
-					handler.sendMessage(handler.obtainMessage(ERROR, e.getMessage()));
-					e.printStackTrace();
-				} catch (ClientProtocolException e) {
-					handler.sendMessage(handler.obtainMessage(ERROR, e.getMessage()));
-					e.printStackTrace();
-				} catch (IOException e) {
-					handler.sendMessage(handler.obtainMessage(ERROR, e.getMessage()));
-					e.printStackTrace();
-				}
-			
-			}
-		}).start();
+		mUrl = url;
 	}
 
 	/**
-	 * parses the JSON reports and displays them in a list
-	 * @param json
-	 * @throws JSONException
-	 * @author ricky barrette
+	 * (non-Javadoc)
+	 * @see android.support.v4.app.Fragment#onActivityCreated(android.os.Bundle)
 	 */
-	private void parseJSON(String json) throws JSONException {
-		mReports = new JSONObject(json).getJSONArray("reports");
-		this.setListAdapter(new ReportAdapter(this.getActivity(), mReports));
+	@Override
+	public void onActivityCreated(Bundle savedInstanceState) {
+		super.onActivityCreated(savedInstanceState);
+		getLoaderManager().initLoader(0, null, this);
 	}
 
-	/**
-	 * Downloads exception report JSON from the Internet 
-	 * @param url
-	 * @return
-	 * @throws IllegalStateException
-	 * @throws ClientProtocolException
-	 * @throws IOException
-	 * @author ricky barrette
-	 */
-	private String downloadJSON(String url) throws IllegalStateException, ClientProtocolException, IOException {
-		if(url == null)
-			throw new NullPointerException();
-		StringBuffer response = new StringBuffer();
-		BufferedReader br = new BufferedReader(new InputStreamReader(new DefaultHttpClient().execute(new HttpGet(url)).getEntity().getContent()));
-		String buff = null;
-		while ((buff = br.readLine()) != null){
-			System.out.print(buff);
-			response.append(buff);
-		}
-		return response.toString();
-	}
-	
 	/**
 	 * Called when the user selects a report to display
 	 * (non-Javadoc)
@@ -143,5 +64,39 @@ public class ReportListFragment extends ListFragment {
 		} catch (JSONException e) {
 			Toast.makeText(this.getActivity().getApplicationContext(), e.getMessage(), Toast.LENGTH_LONG).show();
 		}
+	}
+
+	/**
+	 * Called when the loader is created
+	 * (non-Javadoc)
+	 * @see android.support.v4.app.LoaderManager.LoaderCallbacks#onCreateLoader(int, android.os.Bundle)
+	 */
+	@Override
+	public Loader<JSONObject> onCreateLoader(int id, Bundle args) {
+		return new JSONLoader(mUrl, this, this.getActivity());
+	}
+
+	/**
+	 * Called when the loader has finished
+	 * (non-Javadoc)
+	 * @see android.support.v4.app.LoaderManager.LoaderCallbacks#onLoadFinished(android.support.v4.content.Loader, java.lang.Object)
+	 */
+	@Override
+	public void onLoadFinished(Loader<JSONObject> loader, JSONObject jsonObject) {
+		if(jsonObject != null){
+			try {
+				mReports = jsonObject.getJSONArray("reports");
+				this.setListAdapter(new ReportAdapter(this.getActivity(), mReports));
+			} catch (JSONException e) {
+				this.setEmptyText(getText(R.string.there_was_an_error));
+			}
+			this.setEmptyText(getText(R.string.there_was_an_error));
+		}
+		
+	}
+
+	@Override
+	public void onLoaderReset(Loader<JSONObject> loader) {
+		//not needed
 	}
 }

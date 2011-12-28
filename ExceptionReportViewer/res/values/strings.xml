@@ -3,5 +3,6 @@
 
     <string name="hello">Hello World, Main!</string>
     <string name="app_name">ExceptionReportViewer</string>
+    <string name="there_was_an_error">There was an error...</string>
 
 </resources>
