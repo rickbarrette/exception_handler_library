@@ -11,6 +11,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v4.app.ListFragment;
 import android.support.v4.app.LoaderManager;
@@ -37,6 +38,7 @@ public class ReportListFragment extends ListFragment implements LoaderManager.Lo
 	 * @author ricky barrette
 	 */
 	public ReportListFragment(final String url) {
+		super();
 		mUrl = url;
 	}
 
@@ -47,6 +49,8 @@ public class ReportListFragment extends ListFragment implements LoaderManager.Lo
 	@Override
 	public void onActivityCreated(Bundle savedInstanceState) {
 		super.onActivityCreated(savedInstanceState);
+		this.setListShown(false);
+		this.getListView().setCacheColorHint(Color.TRANSPARENT);
 		getLoaderManager().initLoader(0, null, this);
 	}
 
@@ -95,8 +99,13 @@ public class ReportListFragment extends ListFragment implements LoaderManager.Lo
 		
 	}
 
+	/**
+	 * Called when the loader has been reset
+	 * (non-Javadoc)
+	 * @see android.support.v4.app.LoaderManager.LoaderCallbacks#onLoaderReset(android.support.v4.content.Loader)
+	 */
 	@Override
 	public void onLoaderReset(Loader<JSONObject> loader) {
-		//not needed
+		//not Needed
 	}
 }
