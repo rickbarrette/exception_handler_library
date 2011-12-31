@@ -24,6 +24,7 @@ public final class R {
     public static final class string {
         public static int crash=0x7f030000;
         public static int description=0x7f030004;
+        public static int no_reports=0x7f030006;
         public static int send=0x7f030003;
         public static int sending=0x7f030002;
         public static int sorry=0x7f030001;

@@ -14,7 +14,7 @@
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:gravity="center_vertical"
-        android:text="No Reports"
+        android:text="@string/no_reports"
         android:textAppearance="?android:attr/textAppearanceLarge"
         android:textColor="#99CC00" />
 
