@@ -49,6 +49,8 @@ public class ExceptionHandler implements UncaughtExceptionHandler, Runnable {
 	private static final String TAG = "ExceptionHandler";
 	private String mURL = null;
 	private String mEmail;
+	private String mAppName;
+	private String mTracker;
 	
 	/**
 	 * Creates a new ExceptionHandler
@@ -143,6 +145,8 @@ public class ExceptionHandler implements UncaughtExceptionHandler, Runnable {
 		    properties.load(inputStream);
 		    this.mURL = properties.getProperty("server") + properties.getProperty("file");
 		    this.mEmail = properties.getProperty("email");
+		    this.mAppName = properties.getProperty("app");
+		    this.mTracker = properties.getProperty("tracker");
 		} catch (IOException e) {
 		    Log.e(TAG, "Failed to open exceptionhandler.properties");
 		    e.printStackTrace();
@@ -166,8 +170,8 @@ public class ExceptionHandler implements UncaughtExceptionHandler, Runnable {
 	public void uncaughtException(Thread t, Throwable e) {
 		Log.d(TAG, "uncaughtException()");
 		
-		Log.d(TAG,"mURL = "+ this.mURL);
-		Log.d(TAG,"mEmail = "+ this.mEmail);
+//		Log.d(TAG,"mURL = "+ this.mURL);
+//		Log.d(TAG,"mEmail = "+ this.mEmail);
 
 		Date theDate = new Date();
 		SimpleDateFormat sdf = new SimpleDateFormat("yyyy.MM.dd_HH.mm.ss_zzz");
@@ -197,7 +201,7 @@ public class ExceptionHandler implements UncaughtExceptionHandler, Runnable {
 		}
 		
 		//generate the report
-		this.mReport = new Report(mURL).generateReport(e.toString(), report.toString(), causereport.toString(), sdf.format(theDate), Build.FINGERPRINT, pi.versionName+"b"+pi.versionCode, mContext.getPackageName());
+		this.mReport = new Report(mURL).generateReport(e.toString(), report.toString(), causereport.toString(), sdf.format(theDate), Build.FINGERPRINT, pi.versionName+"b"+pi.versionCode, mAppName != null ? mAppName : mContext.getPackageName(), this.mTracker);
 		
 		//try to send file contents via email (need to do so via the UI thread)
 		if(this.mApp != null){

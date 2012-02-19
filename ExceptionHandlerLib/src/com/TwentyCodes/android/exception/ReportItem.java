@@ -14,7 +14,7 @@ import android.os.Parcelable;
  * This will allow for our report items to stay in the proper order.
  * @author ricky
  */
-public class ReportItem implements Parcelable {
+public final class ReportItem implements Parcelable {
 
 	public static final Parcelable.Creator<ReportItem> CREATOR = new Parcelable.Creator<ReportItem>() {
 		public ReportItem createFromParcel(Parcel in) {
@@ -26,8 +26,8 @@ public class ReportItem implements Parcelable {
 		}
 	};
 	
-	private String mKey;
-	private String mValue;
+	private final String mKey;
+	private final String mValue;
 	
 	/**
 	 * Creates a new ReportItem

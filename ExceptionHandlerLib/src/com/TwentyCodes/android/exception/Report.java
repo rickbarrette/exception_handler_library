@@ -34,7 +34,7 @@ import android.os.Parcelable;
  */
 public class Report implements Parcelable{
 
-	private String mUrl;
+	private final String mUrl;
 	private ArrayList<ReportItem> mReport;
 	
 	public static final Parcelable.Creator<Report> CREATOR = new Parcelable.Creator<Report>() {
@@ -82,7 +82,6 @@ public class Report implements Parcelable{
 		HttpClient httpclient = new DefaultHttpClient();
 		HttpPost httppost = new HttpPost(mUrl);
 		httppost.setEntity(new UrlEncodedFormEntity(getNameValuePairs()));
-		
 		//return the results
 	     HttpResponse response = httpclient.execute(httppost);
 	     HttpEntity entity = response.getEntity();
@@ -128,7 +127,7 @@ public class Report implements Parcelable{
 	 * @return this
 	 * @author ricky barrette
 	 */
-	public Report generateReport(String msg, String stackTrace, String cause, String date, String device, String appVersion, String app){
+	public Report generateReport(String msg, String stackTrace, String cause, String date, String device, String appVersion, String app, String tracker){
 		this.mReport = new ArrayList<ReportItem>();
 		this.mReport.add(new ReportItem("app",app));
 		this.mReport.add(new ReportItem("version",appVersion));
@@ -137,6 +136,7 @@ public class Report implements Parcelable{
 		this.mReport.add(new ReportItem("stackTrace",stackTrace));
 		this.mReport.add(new ReportItem("cause",cause));
 		this.mReport.add(new ReportItem("device",device));
+		this.mReport.add(new ReportItem("tracker",tracker));
 		return this;
 	}
 
