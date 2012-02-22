@@ -127,7 +127,7 @@ public class Report implements Parcelable{
 	 * @return this
 	 * @author ricky barrette
 	 */
-	public Report generateReport(String msg, String stackTrace, String cause, String date, String device, String appVersion, String app, String tracker){
+	public Report generateReport(String msg, String stackTrace, String cause, String date, String device, String appVersion, String app, String tracker, String packageName){
 		this.mReport = new ArrayList<ReportItem>();
 		this.mReport.add(new ReportItem("app",app));
 		this.mReport.add(new ReportItem("version",appVersion));
@@ -137,6 +137,7 @@ public class Report implements Parcelable{
 		this.mReport.add(new ReportItem("cause",cause));
 		this.mReport.add(new ReportItem("device",device));
 		this.mReport.add(new ReportItem("tracker",tracker));
+		this.mReport.add(new ReportItem("package",packageName));
 		return this;
 	}
 

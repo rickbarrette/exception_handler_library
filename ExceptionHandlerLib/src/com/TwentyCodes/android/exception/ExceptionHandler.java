@@ -201,7 +201,7 @@ public class ExceptionHandler implements UncaughtExceptionHandler, Runnable {
 		}
 		
 		//generate the report
-		this.mReport = new Report(mURL).generateReport(e.toString(), report.toString(), causereport.toString(), sdf.format(theDate), Build.FINGERPRINT, pi.versionName+"b"+pi.versionCode, mAppName != null ? mAppName : mContext.getPackageName(), this.mTracker);
+		this.mReport = new Report(mURL).generateReport(e.toString(), report.toString(), causereport.toString(), sdf.format(theDate), Build.FINGERPRINT, pi.versionName+"b"+pi.versionCode, mAppName != null ? mAppName : mContext.getPackageName(), this.mTracker, mContext.getPackageName());
 		
 		//try to send file contents via email (need to do so via the UI thread)
 		if(this.mApp != null){
