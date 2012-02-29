@@ -37,6 +37,8 @@ public class Main extends FragmentActivity {
         Thread.setDefaultUncaughtExceptionHandler(new ExceptionHandler(this));
         setContentView(R.layout.main);
         
+        Integer.parseInt("poop");
+        
         ArrayList<Fragment> fragments = new ArrayList<Fragment>();
         fragments.add(new ReportListFragment("http://powers.doesntexist.com:666/?get=1"));
         fragments.add(new ReportListFragment("http://powers.doesntexist.com:666/testing/?get=1"));
