@@ -22,6 +22,12 @@
         </activity>
         <activity android:name="com.TwentyCodes.android.exception.ExceptionReportActivity" >
         </activity>
+
+        <service
+            android:name="com.TwentyCodes.android.exception.ReportPostingService"
+            android:enabled="true"
+            android:process=":ExceptionReportingService" >
+        </service>
     </application>
 
 </manifest>

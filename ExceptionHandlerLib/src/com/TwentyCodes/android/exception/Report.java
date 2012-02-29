@@ -27,6 +27,7 @@ import org.json.JSONObject;
 
 import android.os.Parcel;
 import android.os.Parcelable;
+import android.util.Log;
 
 /**
  * This class will be used to generate a report, and insert it into our exception report database
@@ -34,6 +35,7 @@ import android.os.Parcelable;
  */
 public class Report implements Parcelable{
 
+	private static final String TAG = "Report";
 	private final String mUrl;
 	private ArrayList<ReportItem> mReport;
 	
@@ -62,8 +64,9 @@ public class Report implements Parcelable{
 	 * Creates a new Report
 	 * @author ricky barrette
 	 */
-	public Report(String mysqlUrl) {
-		this.mUrl = mysqlUrl;
+	public Report(String url) {
+		Log.d(TAG, url);
+		this.mUrl = url;
 	}
 
 	@Override

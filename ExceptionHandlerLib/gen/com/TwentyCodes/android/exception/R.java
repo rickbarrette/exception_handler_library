@@ -27,6 +27,7 @@ public final class R {
         public static int no_reports=0x7f030006;
         public static int send=0x7f030003;
         public static int sending=0x7f030002;
+        public static int sending_report=0x7f030007;
         public static int sorry=0x7f030001;
         public static int version=0x7f030005;
     }

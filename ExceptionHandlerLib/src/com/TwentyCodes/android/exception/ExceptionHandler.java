@@ -143,7 +143,7 @@ public class ExceptionHandler implements UncaughtExceptionHandler, Runnable {
 			InputStream inputStream = assetManager.open("exceptionhandler.properties");
 		    Properties properties = new Properties();
 		    properties.load(inputStream);
-		    this.mURL = properties.getProperty("server") + properties.getProperty("file");
+		    this.mURL = properties.getProperty("server");
 		    this.mEmail = properties.getProperty("email");
 		    this.mAppName = properties.getProperty("app");
 		    this.mTracker = properties.getProperty("tracker");
