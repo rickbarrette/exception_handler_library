@@ -8,5 +8,6 @@
     <string name="description">Optional: Describe what happened</string>
     <string name="version">Version</string>
     <string name="no_reports">No Reports</string>
+    <string name="sending_report">Sending Exception Report</string>
 
 </resources>

@@ -6,14 +6,9 @@
  */
 package com.TwentyCodes.android.exception;
 
-import java.io.IOException;
-
-import org.apache.http.client.ClientProtocolException;
-
 import android.app.Activity;
-import android.app.ProgressDialog;
+import android.content.Intent;
 import android.os.Bundle;
-import android.os.Looper;
 import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -61,21 +56,7 @@ public class ExceptionReportActivity extends Activity implements OnClickListener
 		EditText description = (EditText) findViewById(R.id.description);
 		this.mReport.setDescription(description.getText().toString());
 		v.setEnabled(false);
-		final ProgressDialog progress = ProgressDialog.show(this, "", getString(R.string.sending), true, true);
-		new Thread( new Runnable(){
-			@Override
-			public void run(){
-				Looper.prepare();
-				try {
-					Log.d(TAG, ExceptionReportActivity.this.mReport.file());
-				} catch (ClientProtocolException e) {
-					e.printStackTrace();
-				} catch (IOException e) {
-					e.printStackTrace();
-				}
-				progress.dismiss();
-				ExceptionReportActivity.this.finish();
-			}
-		}).start();
+		this.startService(new Intent(this, ReportPostingService.class).putExtra("report", this.mReport));
+		this.finish();
 	}
 }
