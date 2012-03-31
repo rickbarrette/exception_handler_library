@@ -31,6 +31,7 @@ public class ReportPostingService extends Service {
 	private static final String TAG = "ReportPostingService";
 	private int mStartId;
 	private Report mReport;
+	private boolean isStarted;
 
 	/**
 	 * Extracts the report object from the intent
@@ -113,18 +114,22 @@ public class ReportPostingService extends Service {
 	 * @author ricky barrette
 	 */
 	private void postReport(){
-		new Thread(new Runnable() {
-			@Override
-			public void run(){
-				try {
-					Log.d(TAG, mReport.file());
-				} catch (ClientProtocolException e) {
-					e.printStackTrace();
-				} catch (IOException e) {
-					e.printStackTrace();
+		if(!isStarted){
+			isStarted = true;
+			new Thread(new Runnable() {
+				@Override
+				public void run(){
+					try {
+						Log.d(TAG, mReport.file());
+					} catch (ClientProtocolException e) {
+						e.printStackTrace();
+					} catch (IOException e) {
+						e.printStackTrace();
+					} finally {
+						ReportPostingService.this.stopSelf(mStartId);					
+					}
 				}
-				ReportPostingService.this.stopSelf(mStartId);
-			}
-		}).start();
+			}).start();
+		}
 	}
 }

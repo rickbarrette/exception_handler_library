@@ -6,8 +6,8 @@
   android:orientation="vertical"
   android:background="#ffffff">
   
+<!--   title -->
   	<TextView
-  	 android:text="title"
   	 android:id="@+id/exception_title"
 	 android:layout_width="fill_parent"
      android:layout_height="wrap_content"
@@ -16,8 +16,8 @@
      android:textColor="#99CC00"
   	/>
 
+<!-- 	body -->
   	<TextView
-  	 android:text="body"
   	 android:id="@+id/exception_text"
 	 android:layout_width="fill_parent"
      android:layout_height="wrap_content"
