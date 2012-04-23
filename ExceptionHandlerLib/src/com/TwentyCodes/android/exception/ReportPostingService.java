@@ -11,8 +11,8 @@ import java.io.IOException;
 import org.apache.http.client.ClientProtocolException;
 
 import android.app.Notification;
-import android.app.Notification.Builder;
 import android.app.NotificationManager;
+import android.app.PendingIntent;
 import android.app.Service;
 import android.content.Context;
 import android.content.Intent;
@@ -58,18 +58,29 @@ public class ReportPostingService extends Service {
 	 * (non-Javadoc)
 	 * @see android.app.Service#onCreate()
 	 */
+	@SuppressWarnings("deprecation")
 	@Override
 	public void onCreate() {
 		Context context = this.getApplicationContext();
 		mNotificationManager = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
-		Builder builder = new Notification.Builder(context)
-			.setContentTitle(getText(R.string.sending))
-			.setContentText(getText(R.string.sending_report))
-			.setTicker(getText(R.string.sending))
-			.setOngoing(true)
-			.setSmallIcon(android.R.drawable.stat_sys_upload)
-			.setWhen(System.currentTimeMillis());
-		mNotificationManager.notify(NOTIFICATION_ID, builder.getNotification());
+		
+		
+		Notification notification = new Notification(android.R.drawable.stat_sys_upload, getText(R.string.sending) , System.currentTimeMillis());
+		notification.flags |= Notification.FLAG_ONGOING_EVENT;
+		notification.setLatestEventInfo(context, getText(R.string.sending_report), getText(R.string.sending), PendingIntent.getActivity(context, 0, null, 0));
+		mNotificationManager.notify(NOTIFICATION_ID, notification);
+		
+		/*
+		 * for api 11+
+		 */
+//		Builder builder = new Notification.Builder(context)
+//			.setContentTitle(getText(R.string.sending))
+//			.setContentText(getText(R.string.sending_report))
+//			.setTicker(getText(R.string.sending))
+//			.setOngoing(true)
+//			.setSmallIcon(android.R.drawable.stat_sys_upload)
+//			.setWhen(System.currentTimeMillis());
+		mNotificationManager.notify(NOTIFICATION_ID, notification);
 		super.onCreate();
 	}
 

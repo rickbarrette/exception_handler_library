@@ -120,6 +120,7 @@ public class ExceptionHandler implements UncaughtExceptionHandler, Runnable {
 	 * displays an notification in the status bar, letting the user know that there was an issue
 	 * @param generatedReportIntent
 	 */
+	@SuppressWarnings("deprecation")
 	private void displayNotification(Intent generatedReportIntent) {
 		Log.i(TAG, "displayNotification");
 		Context context = mContext.getApplicationContext();
