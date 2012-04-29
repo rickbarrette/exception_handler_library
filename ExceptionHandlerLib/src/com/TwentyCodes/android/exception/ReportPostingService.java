@@ -11,6 +11,7 @@ import java.io.IOException;
 import org.apache.http.client.ClientProtocolException;
 
 import android.app.Notification;
+import android.app.Notification.Builder;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.app.Service;
@@ -64,23 +65,24 @@ public class ReportPostingService extends Service {
 		Context context = this.getApplicationContext();
 		mNotificationManager = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
 		
-		
-		Notification notification = new Notification(android.R.drawable.stat_sys_upload, getText(R.string.sending) , System.currentTimeMillis());
-		notification.flags |= Notification.FLAG_ONGOING_EVENT;
-		notification.setLatestEventInfo(context, getText(R.string.sending_report), getText(R.string.sending), PendingIntent.getActivity(context, 0, null, 0));
-		mNotificationManager.notify(NOTIFICATION_ID, notification);
-		
 		/*
-		 * for api 11+
+		 * Use the appropriate notificafation methods
 		 */
-//		Builder builder = new Notification.Builder(context)
-//			.setContentTitle(getText(R.string.sending))
-//			.setContentText(getText(R.string.sending_report))
-//			.setTicker(getText(R.string.sending))
-//			.setOngoing(true)
-//			.setSmallIcon(android.R.drawable.stat_sys_upload)
-//			.setWhen(System.currentTimeMillis());
-		mNotificationManager.notify(NOTIFICATION_ID, notification);
+		if(Integer.valueOf(android.os.Build.VERSION.SDK_INT) > 11){
+			Builder builder = new Notification.Builder(context)
+				.setContentTitle(getText(R.string.sending))
+				.setContentText(getText(R.string.sending_report))
+				.setTicker(getText(R.string.sending))
+				.setOngoing(true)
+				.setSmallIcon(android.R.drawable.stat_sys_upload)
+				.setWhen(System.currentTimeMillis());
+			mNotificationManager.notify(NOTIFICATION_ID, builder.getNotification());
+		} else {
+			Notification notification = new Notification(android.R.drawable.stat_sys_upload, getText(R.string.sending) , System.currentTimeMillis());
+			notification.flags |= Notification.FLAG_ONGOING_EVENT;
+			notification.setLatestEventInfo(context, getText(R.string.sending_report), getText(R.string.sending), PendingIntent.getActivity(context, 0, null, 0));
+			mNotificationManager.notify(NOTIFICATION_ID, notification);
+		}
 		super.onCreate();
 	}
 
@@ -100,6 +102,7 @@ public class ReportPostingService extends Service {
 	 * (non-Javadoc)
 	 * @see android.app.Service#onStart(android.content.Intent, int)
 	 */
+	@SuppressWarnings("deprecation")
 	@Override
 	public void onStart(Intent intent, int startId) {
 		mStartId = startId;
