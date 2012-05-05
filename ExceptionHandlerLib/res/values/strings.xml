@@ -2,12 +2,14 @@
 <resources>
 
     <string name="crash">Application Fault</string>
-    <string name="sorry">I\'m sorry, but we found a problem. Please click here.</string>
+    <string name="sorry">We found a problem. Please click here.</string>
     <string name="sending">Sending…</string>
     <string name="send">Send</string>
     <string name="description">Optional: Describe what happened</string>
     <string name="version">Version</string>
     <string name="no_reports">No Reports</string>
     <string name="sending_report">Sending Exception Report</string>
+    <string name="reporting_error">Problem sending the report</string>
+    <string name="reporting_error_msg">Please click here to try again</string>
 
 </resources>
