@@ -10,6 +10,7 @@ import java.io.IOException;
 
 import org.apache.http.client.ClientProtocolException;
 
+import android.annotation.SuppressLint;
 import android.app.Notification;
 import android.app.Notification.Builder;
 import android.app.NotificationManager;
@@ -46,6 +47,7 @@ public class ReportPostingService extends Service {
 	 * @param isOngoing
 	 * @author ricky barrette
 	 */
+	@SuppressLint("NewApi")
 	@SuppressWarnings("deprecation")
 	private void fireNotification(String title, String contentText, String ticker, int icon, Intent intent, boolean isOngoing) {
 		PendingIntent pendingIntent = null;

@@ -1,12 +1,21 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-      package="com.TwentyCodes.android.exception"
-      android:versionCode="1"
-      android:versionName="1.0">
-    <uses-sdk android:minSdkVersion="14" />
+    package="com.TwentyCodes.android.exception"
+    android:versionCode="1"
+    android:versionName="1.0" >
 
-    <application >
+    <uses-sdk android:minSdkVersion="1" />
 
+    <uses-permission android:name="android.permission.INTERNET" />
 
+    <application>
+        <activity
+            android:name="ExceptionReportActivity"
+            android:configChanges="keyboard|keyboardHidden|orientation" >
+        </activity>
+
+        <service android:name="ReportPostingService" >
+        </service>
     </application>
+
 </manifest>

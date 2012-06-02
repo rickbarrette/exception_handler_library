@@ -1,32 +1,30 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout
-  xmlns:android="http://schemas.android.com/apk/res/android"
-  android:layout_width="match_parent"
-  android:layout_height="match_parent"
-  android:background="#ffffff">
-  
-  <Button
-  android:id="@+id/send"
-  android:text="@string/send"
-  android:layout_width="fill_parent"
-  android:layout_height="wrap_content"
-  android:layout_alignParentTop="true"
-  />
-  
-  <EditText
-  android:layout_width="fill_parent"
-  android:layout_height="wrap_content"
-  android:hint="@string/description"
-  android:id="@+id/description"
-  android:layout_below="@id/send"
-  android:freezesText="true"
-  />
-    
-  <ListView  
-  android:layout_below="@id/description"
-  android:id="@android:id/list"
-  android:layout_width="fill_parent" 
-  android:layout_height="wrap_content" 
-  />
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#ffffff"
+    tools:ignore="Overdraw" >
+
+    <Button
+        android:id="@+id/send"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:text="@string/send" />
+
+    <EditText
+        android:id="@+id/description"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/send"
+        android:freezesText="true"
+        android:hint="@string/description" />
+
+    <ListView
+        android:id="@android:id/list"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/description" />
 
 </RelativeLayout>
