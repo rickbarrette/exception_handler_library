@@ -191,18 +191,23 @@ public class ReportPostingService extends Service {
 	 */
 	private void postReport(){
 		if(!isStarted){
-			isStarted = true;
-			try {
-				Log.d(TAG, mReport.file());
-			} catch (ClientProtocolException e) {
-				e.printStackTrace();
-				hasErrored = true;
-			} catch (IOException e) {
-				e.printStackTrace();
-				hasErrored = true;
-			} finally {
-				ReportPostingService.this.stopSelf(mStartId);					
-			}
+			new Thread(new Runnable(){
+				@Override
+				public void run(){
+					isStarted = true;
+					try {
+						Log.d(TAG, mReport.file());
+					} catch (ClientProtocolException e) {
+						e.printStackTrace();
+						hasErrored = true;
+					} catch (IOException e) {
+						e.printStackTrace();
+						hasErrored = true;
+					} finally {
+						ReportPostingService.this.stopSelf(mStartId);					
+					}
+				}
+			}).start();
 		}
 	}
 }
