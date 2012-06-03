@@ -11,6 +11,7 @@ import java.io.IOException;
 import org.apache.http.client.ClientProtocolException;
 
 import android.annotation.SuppressLint;
+import android.annotation.TargetApi;
 import android.app.Notification;
 import android.app.Notification.Builder;
 import android.app.NotificationManager;
@@ -174,6 +175,7 @@ public class ReportPostingService extends Service {
 	 * (non-Javadoc)
 	 * @see android.app.Service#onStartCommand(android.content.Intent, int, int)
 	 */
+	@TargetApi(5)
 	@Override
 	public int onStartCommand(Intent intent, int flags, int startId) {
 		mStartId = startId;

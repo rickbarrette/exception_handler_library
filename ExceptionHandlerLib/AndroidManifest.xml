@@ -4,7 +4,9 @@
     android:versionCode="1"
     android:versionName="1.0" >
 
-    <uses-sdk android:minSdkVersion="1" />
+    <uses-sdk
+        android:minSdkVersion="1"
+        android:targetSdkVersion="11" />
 
     <uses-permission android:name="android.permission.INTERNET" />
 
@@ -14,7 +16,9 @@
             android:configChanges="keyboard|keyboardHidden|orientation" >
         </activity>
 
-        <service android:name="ReportPostingService" >
+        <service
+            android:name="ReportPostingService"
+            android:process=":reportpostingservice" >
         </service>
     </application>
 
