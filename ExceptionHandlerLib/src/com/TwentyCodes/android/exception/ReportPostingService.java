@@ -191,10 +191,10 @@ public class ReportPostingService extends Service {
 	 */
 	private void postReport(){
 		if(!isStarted){
+			isStarted = true;
 			new Thread(new Runnable(){
 				@Override
 				public void run(){
-					isStarted = true;
 					try {
 						Log.d(TAG, mReport.file());
 					} catch (ClientProtocolException e) {
