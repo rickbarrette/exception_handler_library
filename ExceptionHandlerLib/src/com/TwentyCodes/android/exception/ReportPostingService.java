@@ -28,7 +28,7 @@ import android.util.Log;
  * @author ricky barrette
  */
 public class ReportPostingService extends Service {
-	
+
 	public static final int NOTIFICATION_ID = 1973646478;
 	private NotificationManager mNotificationManager;
 	private static final String TAG = "ReportPostingService";
@@ -50,20 +50,20 @@ public class ReportPostingService extends Service {
 	 */
 	@SuppressLint("NewApi")
 	@SuppressWarnings("deprecation")
-	private void fireNotification(String title, String contentText, String ticker, int icon, Intent intent, boolean isOngoing) {
+	private void fireNotification(final String title, final String contentText, final String ticker, final int icon, final Intent intent, final boolean isOngoing) {
 		PendingIntent pendingIntent = null;
 		if(intent != null)
-			pendingIntent = PendingIntent.getService(this.getApplicationContext(), 0, intent, 0);
+			pendingIntent = PendingIntent.getService(getApplicationContext(), 0, intent, 0);
 		/*
 		 * Use the appropriate notificafation methods
 		 */
 		if(Integer.valueOf(android.os.Build.VERSION.SDK_INT) > 11){
-			Builder builder = new Notification.Builder(this.getApplicationContext())
-				.setContentTitle(title)
-				.setContentText(contentText)
-				.setTicker(ticker)
-				.setSmallIcon(icon)
-				.setWhen(System.currentTimeMillis());
+			final Builder builder = new Notification.Builder(getApplicationContext())
+			.setContentTitle(title)
+			.setContentText(contentText)
+			.setTicker(ticker)
+			.setSmallIcon(icon)
+			.setWhen(System.currentTimeMillis());
 			if(isOngoing)
 				builder.setOngoing(true);
 			else
@@ -72,22 +72,22 @@ public class ReportPostingService extends Service {
 				builder.setContentIntent(pendingIntent);
 			mNotificationManager.notify(NOTIFICATION_ID, builder.getNotification());
 		} else {
-			Notification notification = new Notification(icon, title , System.currentTimeMillis());
+			final Notification notification = new Notification(icon, title , System.currentTimeMillis());
 			if(isOngoing)
 				notification.flags |= Notification.FLAG_ONGOING_EVENT;
 			else
 				notification.flags |= Notification.FLAG_AUTO_CANCEL;
-			notification.setLatestEventInfo(this.getApplicationContext(), title, contentText, pendingIntent);
+			notification.setLatestEventInfo(getApplicationContext(), title, contentText, pendingIntent);
 			mNotificationManager.notify(NOTIFICATION_ID, notification);
 		}
 	}
-	
+
 	/**
 	 * Extracts the report object from the intent
 	 * @param intent
 	 * @author ricky barrette
 	 */
-	private void getReport(Intent intent) {
+	private void getReport(final Intent intent) {
 		mReport = (Report) intent.getParcelableExtra("report");
 	}
 
@@ -96,26 +96,26 @@ public class ReportPostingService extends Service {
 	 * @author ricky barrette
 	 */
 	private void notifyError() {
-		fireNotification(getString(R.string.reporting_error), 
-				getString(R.string.reporting_error_msg), 
-				getString(R.string.reporting_error_msg), 
-				android.R.drawable.stat_notify_error, 
-				new Intent(this.getApplicationContext(), ReportPostingService.class).putExtras(mIntent), 
+		fireNotification(getString(R.string.reporting_error),
+				getString(R.string.reporting_error_msg),
+				getString(R.string.reporting_error_msg),
+				android.R.drawable.stat_notify_error,
+				new Intent(getApplicationContext(), ReportPostingService.class).putExtras(mIntent),
 				false);
 	}
-	
+
 	/**
 	 * notifiys the user that we are sending a report
 	 * @author ricky barrette
 	 */
 	private void notifySending() {
-		fireNotification(getString(R.string.sending), 
-				getString(R.string.sending_report), 
-				getString(R.string.sending), 
-				android.R.drawable.stat_sys_upload, 
-				null, 
+		fireNotification(getString(R.string.sending),
+				getString(R.string.sending_report),
+				getString(R.string.sending),
+				android.R.drawable.stat_sys_upload,
+				null,
 				true);
-		
+
 	}
 
 	/**
@@ -123,11 +123,11 @@ public class ReportPostingService extends Service {
 	 * @see android.app.Service#onBind(android.content.Intent)
 	 */
 	@Override
-	public IBinder onBind(Intent intent) {
+	public IBinder onBind(final Intent intent) {
 		// Unused
 		return null;
 	}
-	
+
 	/**
 	 * Called when the service is being created
 	 * Here we want to display a notifcation,
@@ -137,9 +137,9 @@ public class ReportPostingService extends Service {
 	 */
 	@Override
 	public void onCreate() {
-		Context context = this.getApplicationContext();
+		final Context context = getApplicationContext();
 		mNotificationManager = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
-		
+
 		notifySending();
 		super.onCreate();
 	}
@@ -163,7 +163,7 @@ public class ReportPostingService extends Service {
 	 */
 	@SuppressWarnings("deprecation")
 	@Override
-	public void onStart(Intent intent, int startId) {
+	public void onStart(final Intent intent, final int startId) {
 		mStartId = startId;
 		getReport(intent);
 		postReport();
@@ -177,7 +177,7 @@ public class ReportPostingService extends Service {
 	 */
 	@TargetApi(5)
 	@Override
-	public int onStartCommand(Intent intent, int flags, int startId) {
+	public int onStartCommand(final Intent intent, final int flags, final int startId) {
 		mStartId = startId;
 		getReport(intent);
 		postReport();
@@ -197,14 +197,14 @@ public class ReportPostingService extends Service {
 				public void run(){
 					try {
 						Log.d(TAG, mReport.file());
-					} catch (ClientProtocolException e) {
+					} catch (final ClientProtocolException e) {
 						e.printStackTrace();
 						hasErrored = true;
-					} catch (IOException e) {
+					} catch (final IOException e) {
 						e.printStackTrace();
 						hasErrored = true;
 					} finally {
-						ReportPostingService.this.stopSelf(mStartId);					
+						ReportPostingService.this.stopSelf(mStartId);
 					}
 				}
 			}).start();

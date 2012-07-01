@@ -36,13 +36,15 @@ public class Report implements Parcelable{
 
 	private final String mUrl;
 	private ArrayList<ReportItem> mReport;
-	
+
 	public static final Parcelable.Creator<Report> CREATOR = new Parcelable.Creator<Report>() {
-		public Report createFromParcel(Parcel in) {
+		@Override
+		public Report createFromParcel(final Parcel in) {
 			return new Report(in);
 		}
-		
-		public Report[] newArray(int size) {
+
+		@Override
+		public Report[] newArray(final int size) {
 			return new Report[size];
 		}
 	};
@@ -52,71 +54,71 @@ public class Report implements Parcelable{
 	 * @param in
 	 * @author ricky barrette
 	 */
-	public Report(Parcel in){
-		this.mUrl = in.readString();
-		this.mReport = new ArrayList<ReportItem>();
-        in.readTypedList(this.mReport, ReportItem.CREATOR);
+	public Report(final Parcel in){
+		mUrl = in.readString();
+		mReport = new ArrayList<ReportItem>();
+		in.readTypedList(mReport, ReportItem.CREATOR);
 	}
-	
+
 	/**
 	 * Creates a new Report
 	 * @author ricky barrette
 	 */
-	public Report(String url) {
-//		Log.d(TAG, url);
-		this.mUrl = url;
+	public Report(final String url) {
+		//		Log.d(TAG, url);
+		mUrl = url;
 	}
 
 	@Override
 	public int describeContents() {
 		return 0;
 	}
-	
+
 	/**
 	 * Files the report with the remote database
 	 * @author ricky barrette
-	 * @throws IOException 
-	 * @throws ClientProtocolException 
+	 * @throws IOException
+	 * @throws ClientProtocolException
 	 * @return String result
 	 */
 	public String file() throws ClientProtocolException, IOException{
-		HttpClient httpclient = new DefaultHttpClient();
-		HttpPost httppost = new HttpPost(mUrl);
+		final HttpClient httpclient = new DefaultHttpClient();
+		final HttpPost httppost = new HttpPost(mUrl);
 		httppost.setEntity(new UrlEncodedFormEntity(getNameValuePairs()));
 		//return the results
-	     HttpResponse response = httpclient.execute(httppost);
-	     HttpEntity entity = response.getEntity();
-	     InputStream is = entity.getContent();
-	    
-	     BufferedReader reader = new BufferedReader(new InputStreamReader(is,"iso-8859-1"),8);
-	     StringBuilder sb = new StringBuilder();
-	     sb.append(reader.readLine() + "\n");
-	     String line="0";
-	     while ((line = reader.readLine()) != null)
-	    	 sb.append(line + "\n");
-	     is.close();
-	     reader.close();
-	     return sb.toString();
+		final HttpResponse response = httpclient.execute(httppost);
+		final HttpEntity entity = response.getEntity();
+		final InputStream is = entity.getContent();
+
+		final BufferedReader reader = new BufferedReader(new InputStreamReader(is,"iso-8859-1"),8);
+		final StringBuilder sb = new StringBuilder();
+		sb.append(reader.readLine() + "\n");
+		String line="0";
+		while ((line = reader.readLine()) != null)
+			sb.append(line + "\n");
+		is.close();
+		reader.close();
+		return sb.toString();
 	}
-	
+
 	/**
 	 * Generates a report to be displayed form a downloaded JSON object
 	 * @param report
 	 * @return
 	 * @author ricky barrette
-	 * @throws JSONException 
+	 * @throws JSONException
 	 */
 	@SuppressWarnings("rawtypes")
-	public Report generateReport(JSONObject report) throws JSONException{
-		this.mReport = new ArrayList<ReportItem>();
-		Iterator iter = report.keys();
-	    while(iter.hasNext()){
-	        String key = (String)iter.next();
-	        this.mReport.add(new ReportItem(key , report.getString(key)));
-	    }
+	public Report generateReport(final JSONObject report) throws JSONException{
+		mReport = new ArrayList<ReportItem>();
+		final Iterator iter = report.keys();
+		while(iter.hasNext()){
+			final String key = (String)iter.next();
+			mReport.add(new ReportItem(key , report.getString(key)));
+		}
 		return this;
 	}
-	
+
 	/**
 	 * Generates a report to be sent.
 	 * @param msg
@@ -128,17 +130,17 @@ public class Report implements Parcelable{
 	 * @return this
 	 * @author ricky barrette
 	 */
-	public Report generateReport(String msg, String stackTrace, String cause, String date, String device, String appVersion, String app, String tracker, String packageName){
-		this.mReport = new ArrayList<ReportItem>();
-		this.mReport.add(new ReportItem("app",app));
-		this.mReport.add(new ReportItem("version",appVersion));
-		this.mReport.add(new ReportItem("date",date));
-		this.mReport.add(new ReportItem("msg",msg));
-		this.mReport.add(new ReportItem("stackTrace",stackTrace));
-		this.mReport.add(new ReportItem("cause",cause));
-		this.mReport.add(new ReportItem("device",device));
-		this.mReport.add(new ReportItem("tracker",tracker));
-		this.mReport.add(new ReportItem("package",packageName));
+	public Report generateReport(final String msg, final String stackTrace, final String cause, final String date, final String device, final String appVersion, final String app, final String tracker, final String packageName){
+		mReport = new ArrayList<ReportItem>();
+		mReport.add(new ReportItem("app",app));
+		mReport.add(new ReportItem("version",appVersion));
+		mReport.add(new ReportItem("date",date));
+		mReport.add(new ReportItem("msg",msg));
+		mReport.add(new ReportItem("stackTrace",stackTrace));
+		mReport.add(new ReportItem("cause",cause));
+		mReport.add(new ReportItem("device",device));
+		mReport.add(new ReportItem("tracker",tracker));
+		mReport.add(new ReportItem("package",packageName));
 		return this;
 	}
 
@@ -148,9 +150,9 @@ public class Report implements Parcelable{
 	 * @author ricky barrette
 	 */
 	private ArrayList<NameValuePair> getNameValuePairs() {
-		ArrayList<NameValuePair> list = new ArrayList<NameValuePair>();
-		for(ReportItem entry : this.mReport)
-			list.add(new BasicNameValuePair(entry.getKey(), (String) entry.getValue()));
+		final ArrayList<NameValuePair> list = new ArrayList<NameValuePair>();
+		for(final ReportItem entry : mReport)
+			list.add(new BasicNameValuePair(entry.getKey(), entry.getValue()));
 		return list;
 	}
 
@@ -167,8 +169,8 @@ public class Report implements Parcelable{
 	 * @param string
 	 * @author ricky barrette
 	 */
-	public Report setDescription(String description) {
-		this.mReport.add(new ReportItem("description", description));
+	public Report setDescription(final String description) {
+		mReport.add(new ReportItem("description", description));
 		return this;
 	}
 
@@ -178,17 +180,17 @@ public class Report implements Parcelable{
 	 */
 	@Override
 	public String toString(){
-		StringBuilder s = new StringBuilder();
-		for(ReportItem item : this.mReport){
+		final StringBuilder s = new StringBuilder();
+		for(final ReportItem item : mReport){
 			s.append("\n\n-----"+ item.getKey()+"-----");
 			s.append("\n"+item.getValue());
 		}
 		return s.toString();
 	}
-	
+
 	@Override
-	public void writeToParcel(Parcel out, int flags) {
-		out.writeString(this.mUrl);
-		out.writeTypedList(this.mReport);
+	public void writeToParcel(final Parcel out, final int flags) {
+		out.writeString(mUrl);
+		out.writeTypedList(mReport);
 	}
 }

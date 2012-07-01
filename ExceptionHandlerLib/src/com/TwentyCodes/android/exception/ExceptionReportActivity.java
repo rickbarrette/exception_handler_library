@@ -26,37 +26,37 @@ public class ExceptionReportActivity extends Activity implements OnClickListener
 
 	/**
 	 * (non-Javadoc)
-	 * @see android.app.Activity#onCreate(android.os.Bundle)
-	 * @author ricky barrette
-	 */
-	@Override
-	protected void onCreate(Bundle savedInstanceState) {
-		Log.d(TAG, "onCreate()");
-		super.onCreate(savedInstanceState);
-		this.mReport = (Report) this.getIntent().getParcelableExtra("report");
-		
-		if(this.getIntent().hasExtra("display"))
-			this.setContentView(R.layout.list);
-		else {
-			this.setContentView(R.layout.exception_activity);
-			this.findViewById(R.id.send).setOnClickListener(this);
-		}
-		ListView list = (ListView) this.findViewById(android.R.id.list);
-		list.setAdapter(new ReportAdapter(this, this.mReport.getReport()));
-		list.setClickable(false);
-	}
-
-	/**
-	 * (non-Javadoc)
 	 * @see android.view.View.OnClickListener#onClick(android.view.View)
 	 * @author ricky barrette
 	 */
 	@Override
-	public void onClick(View v) {
-		EditText description = (EditText) findViewById(R.id.description);
-		this.mReport.setDescription(description.getText().toString());
+	public void onClick(final View v) {
+		final EditText description = (EditText) findViewById(R.id.description);
+		mReport.setDescription(description.getText().toString());
 		v.setEnabled(false);
-		this.startService(new Intent(this, ReportPostingService.class).putExtra("report", this.mReport));
-		this.finish();
+		startService(new Intent(this, ReportPostingService.class).putExtra("report", mReport));
+		finish();
+	}
+
+	/**
+	 * (non-Javadoc)
+	 * @see android.app.Activity#onCreate(android.os.Bundle)
+	 * @author ricky barrette
+	 */
+	@Override
+	protected void onCreate(final Bundle savedInstanceState) {
+		Log.d(TAG, "onCreate()");
+		super.onCreate(savedInstanceState);
+		mReport = (Report) getIntent().getParcelableExtra("report");
+
+		if(getIntent().hasExtra("display"))
+			this.setContentView(R.layout.list);
+		else {
+			this.setContentView(R.layout.exception_activity);
+			findViewById(R.id.send).setOnClickListener(this);
+		}
+		final ListView list = (ListView) findViewById(android.R.id.list);
+		list.setAdapter(new ReportAdapter(this, mReport.getReport()));
+		list.setClickable(false);
 	}
 }

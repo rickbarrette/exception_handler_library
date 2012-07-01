@@ -17,34 +17,36 @@ import android.os.Parcelable;
 public final class ReportItem implements Parcelable {
 
 	public static final Parcelable.Creator<ReportItem> CREATOR = new Parcelable.Creator<ReportItem>() {
-		public ReportItem createFromParcel(Parcel in) {
+		@Override
+		public ReportItem createFromParcel(final Parcel in) {
 			return new ReportItem(in);
 		}
-		
-		public ReportItem[] newArray(int size) {
+
+		@Override
+		public ReportItem[] newArray(final int size) {
 			return new ReportItem[size];
 		}
 	};
-	
+
 	private final String mKey;
 	private final String mValue;
-	
-	/**
-	 * Creates a new ReportItem
-	 * @author ricky barrette
-	 */
-	public ReportItem(String key, String value) {
-		this.mKey = key;
-		this.mValue = value;
-	}
-	
+
 	/**
 	 * Creates a new ReportItem from a parcel
 	 * @param in
 	 */
-	public ReportItem(Parcel in){
-		this.mKey = in.readString();
-		this.mValue = in.readString();
+	public ReportItem(final Parcel in){
+		mKey = in.readString();
+		mValue = in.readString();
+	}
+
+	/**
+	 * Creates a new ReportItem
+	 * @author ricky barrette
+	 */
+	public ReportItem(final String key, final String value) {
+		mKey = key;
+		mValue = value;
 	}
 
 	/* (non-Javadoc)
@@ -56,27 +58,27 @@ public final class ReportItem implements Parcelable {
 		return 0;
 	}
 
-	/* (non-Javadoc)
-	 * @see android.os.Parcelable#writeToParcel(android.os.Parcel, int)
-	 */
-	@Override
-	public void writeToParcel(Parcel dest, int flags) {
-		dest.writeString(this.mKey);
-		dest.writeString(this.mValue);
-	}
-
 	/**
 	 * @return the key
 	 */
 	public String getKey() {
-		return this.mKey;
+		return mKey;
 	}
 
 	/**
 	 * @return the value
 	 */
 	public String getValue() {
-		return this.mValue;
+		return mValue;
+	}
+
+	/* (non-Javadoc)
+	 * @see android.os.Parcelable#writeToParcel(android.os.Parcel, int)
+	 */
+	@Override
+	public void writeToParcel(final Parcel dest, final int flags) {
+		dest.writeString(mKey);
+		dest.writeString(mValue);
 	}
 
 }
