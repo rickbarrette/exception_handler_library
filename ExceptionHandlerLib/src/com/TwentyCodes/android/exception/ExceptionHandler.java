@@ -14,7 +14,6 @@ import java.util.Date;
 import java.util.Properties;
 
 import android.app.Activity;
-import android.app.Notification;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.app.Service;
@@ -27,6 +26,7 @@ import android.content.pm.PackageManager.NameNotFoundException;
 import android.content.res.AssetManager;
 import android.content.res.Resources;
 import android.os.Build;
+import android.support.v4.app.NotificationCompat;
 import android.util.Log;
 
 /**
@@ -120,16 +120,20 @@ public class ExceptionHandler implements UncaughtExceptionHandler, Runnable {
 	 * displays an notification in the status bar, letting the user know that there was an issue
 	 * @param generatedReportIntent
 	 */
-	@SuppressWarnings("deprecation")
 	private void displayNotification(final Intent generatedReportIntent) {
 		Log.i(TAG, "displayNotification");
 		final Context context = mContext.getApplicationContext();
 		final NotificationManager notificationManager = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
-		final Notification notifyDetails = new Notification(android.R.drawable.stat_notify_error, context.getString(R.string.sorry), System.currentTimeMillis());
 		final PendingIntent intent = PendingIntent.getActivity(context, 0, generatedReportIntent, android.content.Intent.FLAG_ACTIVITY_NEW_TASK);
-		notifyDetails.setLatestEventInfo(context, context.getString(R.string.crash), context.getString(R.string.sorry), intent);
-		notifyDetails.flags |= Notification.FLAG_AUTO_CANCEL;
-		notificationManager.notify(SIMPLE_NOTFICATION_ID, notifyDetails);
+		final NotificationCompat.Builder builder = new NotificationCompat.Builder(context)
+			.setContentTitle(context.getString(R.string.crash))
+			.setContentText(context.getString(R.string.sorry))
+			.setTicker(context.getString(R.string.crash))
+			.setSmallIcon(android.R.drawable.stat_notify_error)
+			.setWhen(System.currentTimeMillis())		
+			.setAutoCancel(true)
+			.setContentIntent(intent);
+		notificationManager.notify(SIMPLE_NOTFICATION_ID, builder.getNotification());		
 	}
 
 	/**

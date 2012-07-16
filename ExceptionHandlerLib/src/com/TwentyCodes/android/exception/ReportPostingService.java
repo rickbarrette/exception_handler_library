@@ -10,16 +10,14 @@ import java.io.IOException;
 
 import org.apache.http.client.ClientProtocolException;
 
-import android.annotation.SuppressLint;
 import android.annotation.TargetApi;
-import android.app.Notification;
-import android.app.Notification.Builder;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.app.Service;
 import android.content.Context;
 import android.content.Intent;
 import android.os.IBinder;
+import android.support.v4.app.NotificationCompat;
 import android.util.Log;
 
 /**
@@ -48,38 +46,26 @@ public class ReportPostingService extends Service {
 	 * @param isOngoing
 	 * @author ricky barrette
 	 */
-	@SuppressLint("NewApi")
-	@SuppressWarnings("deprecation")
 	private void fireNotification(final String title, final String contentText, final String ticker, final int icon, final Intent intent, final boolean isOngoing) {
 		PendingIntent pendingIntent = null;
 		if(intent != null)
 			pendingIntent = PendingIntent.getService(getApplicationContext(), 0, intent, 0);
-		/*
-		 * Use the appropriate notificafation methods
-		 */
-		if(Integer.valueOf(android.os.Build.VERSION.SDK_INT) > 11){
-			final Builder builder = new Notification.Builder(getApplicationContext())
+
+		final NotificationCompat.Builder builder = new NotificationCompat.Builder(getApplicationContext())
 			.setContentTitle(title)
 			.setContentText(contentText)
 			.setTicker(ticker)
 			.setSmallIcon(icon)
 			.setWhen(System.currentTimeMillis());
-			if(isOngoing)
-				builder.setOngoing(true);
-			else
-				builder.setAutoCancel(true);
-			if (intent != null)
-				builder.setContentIntent(pendingIntent);
-			mNotificationManager.notify(NOTIFICATION_ID, builder.getNotification());
-		} else {
-			final Notification notification = new Notification(icon, title , System.currentTimeMillis());
-			if(isOngoing)
-				notification.flags |= Notification.FLAG_ONGOING_EVENT;
-			else
-				notification.flags |= Notification.FLAG_AUTO_CANCEL;
-			notification.setLatestEventInfo(getApplicationContext(), title, contentText, pendingIntent);
-			mNotificationManager.notify(NOTIFICATION_ID, notification);
-		}
+		
+		if(isOngoing)
+			builder.setOngoing(true);
+		else
+			builder.setAutoCancel(true);
+		
+		if (intent != null)
+			builder.setContentIntent(pendingIntent);
+		mNotificationManager.notify(NOTIFICATION_ID, builder.getNotification());
 	}
 
 	/**
@@ -115,7 +101,6 @@ public class ReportPostingService extends Service {
 				android.R.drawable.stat_sys_upload,
 				null,
 				true);
-
 	}
 
 	/**

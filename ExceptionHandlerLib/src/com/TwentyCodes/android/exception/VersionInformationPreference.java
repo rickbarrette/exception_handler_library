@@ -27,7 +27,6 @@ public class VersionInformationPreference extends Preference {
 
 	private final Context mContext;
 
-
 	/**
 	 * creates a preference that is nothing but a text view
 	 * @param context
