@@ -26,8 +26,8 @@ import android.content.pm.PackageManager.NameNotFoundException;
 import android.content.res.AssetManager;
 import android.content.res.Resources;
 import android.os.Build;
-import android.support.v4.app.NotificationCompat;
 import android.util.Log;
+import anroid.v4.compat.NotificationCompat;
 
 /**
  * This is Twenty Codes, LLC Exception Handler of Awesomeness!

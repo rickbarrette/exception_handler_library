@@ -17,8 +17,8 @@ import android.app.Service;
 import android.content.Context;
 import android.content.Intent;
 import android.os.IBinder;
-import android.support.v4.app.NotificationCompat;
 import android.util.Log;
+import anroid.v4.compat.NotificationCompat;
 
 /**
  * This service will allow the exception handler to post reports in the backgound,
