@@ -29,10 +29,12 @@ import android.os.Parcel;
 import android.os.Parcelable;
 
 /**
- * This class will be used to generate a report, and insert it into our exception report database
+ * This class will be used to generate a report, and insert it into our
+ * exception report database
+ * 
  * @author ricky barrette
  */
-public class Report implements Parcelable{
+public class Report implements Parcelable {
 
 	private final String mUrl;
 	private ArrayList<ReportItem> mReport;
@@ -51,10 +53,11 @@ public class Report implements Parcelable{
 
 	/**
 	 * Creates a new Report
+	 * 
 	 * @param in
 	 * @author ricky barrette
 	 */
-	public Report(final Parcel in){
+	public Report(final Parcel in) {
 		mUrl = in.readString();
 		mReport = new ArrayList<ReportItem>();
 		in.readTypedList(mReport, ReportItem.CREATOR);
@@ -62,10 +65,11 @@ public class Report implements Parcelable{
 
 	/**
 	 * Creates a new Report
+	 * 
 	 * @author ricky barrette
 	 */
 	public Report(final String url) {
-		//		Log.d(TAG, url);
+		// Log.d(TAG, url);
 		mUrl = url;
 	}
 
@@ -76,24 +80,25 @@ public class Report implements Parcelable{
 
 	/**
 	 * Files the report with the remote database
+	 * 
 	 * @author ricky barrette
 	 * @throws IOException
 	 * @throws ClientProtocolException
 	 * @return String result
 	 */
-	public String file() throws ClientProtocolException, IOException{
+	public String file() throws ClientProtocolException, IOException {
 		final HttpClient httpclient = new DefaultHttpClient();
 		final HttpPost httppost = new HttpPost(mUrl);
 		httppost.setEntity(new UrlEncodedFormEntity(getNameValuePairs()));
-		//return the results
+		// return the results
 		final HttpResponse response = httpclient.execute(httppost);
 		final HttpEntity entity = response.getEntity();
 		final InputStream is = entity.getContent();
 
-		final BufferedReader reader = new BufferedReader(new InputStreamReader(is,"iso-8859-1"),8);
+		final BufferedReader reader = new BufferedReader(new InputStreamReader(is, "iso-8859-1"), 8);
 		final StringBuilder sb = new StringBuilder();
 		sb.append(reader.readLine() + "\n");
-		String line="0";
+		String line = "0";
 		while ((line = reader.readLine()) != null)
 			sb.append(line + "\n");
 		is.close();
@@ -103,24 +108,26 @@ public class Report implements Parcelable{
 
 	/**
 	 * Generates a report to be displayed form a downloaded JSON object
+	 * 
 	 * @param report
 	 * @return
 	 * @author ricky barrette
 	 * @throws JSONException
 	 */
 	@SuppressWarnings("rawtypes")
-	public Report generateReport(final JSONObject report) throws JSONException{
+	public Report generateReport(final JSONObject report) throws JSONException {
 		mReport = new ArrayList<ReportItem>();
 		final Iterator iter = report.keys();
-		while(iter.hasNext()){
-			final String key = (String)iter.next();
-			mReport.add(new ReportItem(key , report.getString(key)));
+		while (iter.hasNext()) {
+			final String key = (String) iter.next();
+			mReport.add(new ReportItem(key, report.getString(key)));
 		}
 		return this;
 	}
 
 	/**
 	 * Generates a report to be sent.
+	 * 
 	 * @param msg
 	 * @param stackTrace
 	 * @param cause
@@ -130,28 +137,30 @@ public class Report implements Parcelable{
 	 * @return this
 	 * @author ricky barrette
 	 */
-	public Report generateReport(final String msg, final String stackTrace, final String cause, final String date, final String device, final String appVersion, final String app, final String tracker, final String packageName){
+	public Report generateReport(final String msg, final String stackTrace, final String cause, final String date, final String device, final String appVersion,
+			final String app, final String tracker, final String packageName) {
 		mReport = new ArrayList<ReportItem>();
-		mReport.add(new ReportItem("app",app));
-		mReport.add(new ReportItem("version",appVersion));
-		mReport.add(new ReportItem("date",date));
-		mReport.add(new ReportItem("msg",msg));
-		mReport.add(new ReportItem("stackTrace",stackTrace));
-		mReport.add(new ReportItem("cause",cause));
-		mReport.add(new ReportItem("device",device));
-		mReport.add(new ReportItem("tracker",tracker));
-		mReport.add(new ReportItem("package",packageName));
+		mReport.add(new ReportItem("app", app));
+		mReport.add(new ReportItem("version", appVersion));
+		mReport.add(new ReportItem("date", date));
+		mReport.add(new ReportItem("msg", msg));
+		mReport.add(new ReportItem("stackTrace", stackTrace));
+		mReport.add(new ReportItem("cause", cause));
+		mReport.add(new ReportItem("device", device));
+		mReport.add(new ReportItem("tracker", tracker));
+		mReport.add(new ReportItem("package", packageName));
 		return this;
 	}
 
 	/**
 	 * Extracts the name value pairs from the report bundle
+	 * 
 	 * @return
 	 * @author ricky barrette
 	 */
 	private ArrayList<NameValuePair> getNameValuePairs() {
 		final ArrayList<NameValuePair> list = new ArrayList<NameValuePair>();
-		for(final ReportItem entry : mReport)
+		for (final ReportItem entry : mReport)
 			list.add(new BasicNameValuePair(entry.getKey(), entry.getValue()));
 		return list;
 	}
@@ -160,12 +169,13 @@ public class Report implements Parcelable{
 	 * @return the generated exception report
 	 * @author ricky barrette
 	 */
-	public ArrayList<NameValuePair> getReport(){
+	public ArrayList<NameValuePair> getReport() {
 		return getNameValuePairs();
 	}
 
 	/**
 	 * Sets the optional users description of what happened
+	 * 
 	 * @param string
 	 * @author ricky barrette
 	 */
@@ -179,11 +189,11 @@ public class Report implements Parcelable{
 	 * @author ricky barrette
 	 */
 	@Override
-	public String toString(){
+	public String toString() {
 		final StringBuilder s = new StringBuilder();
-		for(final ReportItem item : mReport){
-			s.append("\n\n-----"+ item.getKey()+"-----");
-			s.append("\n"+item.getValue());
+		for (final ReportItem item : mReport) {
+			s.append("\n\n-----" + item.getKey() + "-----");
+			s.append("\n" + item.getValue());
 		}
 		return s.toString();
 	}

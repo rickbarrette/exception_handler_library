@@ -16,7 +16,9 @@ import android.widget.EditText;
 import android.widget.ListView;
 
 /**
- * This activity will be used to present the user with the exception report, and allows them to send it, or not
+ * This activity will be used to present the user with the exception report, and
+ * allows them to send it, or not
+ * 
  * @author ricky barrette
  */
 public class ExceptionReportActivity extends Activity implements OnClickListener {
@@ -26,6 +28,7 @@ public class ExceptionReportActivity extends Activity implements OnClickListener
 
 	/**
 	 * (non-Javadoc)
+	 * 
 	 * @see android.view.View.OnClickListener#onClick(android.view.View)
 	 * @author ricky barrette
 	 */
@@ -40,6 +43,7 @@ public class ExceptionReportActivity extends Activity implements OnClickListener
 
 	/**
 	 * (non-Javadoc)
+	 * 
 	 * @see android.app.Activity#onCreate(android.os.Bundle)
 	 * @author ricky barrette
 	 */
@@ -49,7 +53,7 @@ public class ExceptionReportActivity extends Activity implements OnClickListener
 		super.onCreate(savedInstanceState);
 		mReport = (Report) getIntent().getParcelableExtra("report");
 
-		if(getIntent().hasExtra("display"))
+		if (getIntent().hasExtra("display"))
 			this.setContentView(R.layout.list);
 		else {
 			this.setContentView(R.layout.exception_activity);

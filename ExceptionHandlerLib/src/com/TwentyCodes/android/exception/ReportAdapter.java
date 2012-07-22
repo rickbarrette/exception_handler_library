@@ -18,7 +18,9 @@ import android.widget.BaseAdapter;
 import android.widget.TextView;
 
 /**
- * This class will be used to populate a custom Listview used to display the Generated exception report
+ * This class will be used to populate a custom Listview used to display the
+ * Generated exception report
+ * 
  * @author ricky barrette
  */
 public class ReportAdapter extends BaseAdapter {
@@ -27,12 +29,14 @@ public class ReportAdapter extends BaseAdapter {
 		TextView title;
 		TextView body;
 	}
+
 	private final ArrayList<NameValuePair> mReport;
 
 	private final LayoutInflater mInflater;
 
 	/**
 	 * Creates a new ReportAdapter
+	 * 
 	 * @author ricky barrette
 	 */
 	public ReportAdapter(final Context context, final ArrayList<NameValuePair> report) {
@@ -44,6 +48,7 @@ public class ReportAdapter extends BaseAdapter {
 
 	/**
 	 * (non-Javadoc)
+	 * 
 	 * @see android.widget.Adapter#getCount()
 	 * @author ricky barrette
 	 */
@@ -54,6 +59,7 @@ public class ReportAdapter extends BaseAdapter {
 
 	/**
 	 * (non-Javadoc)
+	 * 
 	 * @see android.widget.Adapter#getItem(int)
 	 * @author ricky barrette
 	 */
@@ -64,6 +70,7 @@ public class ReportAdapter extends BaseAdapter {
 
 	/**
 	 * (non-Javadoc)
+	 * 
 	 * @see android.widget.Adapter#getItemId(int)
 	 * @author ricky barrette
 	 */
@@ -78,16 +85,20 @@ public class ReportAdapter extends BaseAdapter {
 	@Override
 	public View getView(final int position, View convertView, final ViewGroup parent) {
 
-		// A ViewHolder keeps references to children views to avoid unnecessary calls to findViewById() on each row.
+		// A ViewHolder keeps references to children views to avoid unnecessary
+		// calls to findViewById() on each row.
 		ViewHolder holder;
 
-		// When convertView is not null, we can reuse it directly, there is no need
-		// to reinflate it. We only inflate a new View when the convertView supplied
+		// When convertView is not null, we can reuse it directly, there is no
+		// need
+		// to reinflate it. We only inflate a new View when the convertView
+		// supplied
 		// by ListView is null.
 		if (convertView == null) {
 			convertView = mInflater.inflate(R.layout.exception_list_item, null);
 
-			// Creates a ViewHolder and store references to the two children views
+			// Creates a ViewHolder and store references to the two children
+			// views
 			// we want to bind data to.
 			holder = new ViewHolder();
 			holder.title = (TextView) convertView.findViewById(R.id.exception_title);

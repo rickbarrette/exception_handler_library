@@ -10,8 +10,10 @@ import android.os.Parcel;
 import android.os.Parcelable;
 
 /**
- * This class will represent an individual report item. The ReportItems will be used in an array list that will be passed via intent.
- * This will allow for our report items to stay in the proper order.
+ * This class will represent an individual report item. The ReportItems will be
+ * used in an array list that will be passed via intent. This will allow for our
+ * report items to stay in the proper order.
+ * 
  * @author ricky
  */
 public final class ReportItem implements Parcelable {
@@ -33,15 +35,17 @@ public final class ReportItem implements Parcelable {
 
 	/**
 	 * Creates a new ReportItem from a parcel
+	 * 
 	 * @param in
 	 */
-	public ReportItem(final Parcel in){
+	public ReportItem(final Parcel in) {
 		mKey = in.readString();
 		mValue = in.readString();
 	}
 
 	/**
 	 * Creates a new ReportItem
+	 * 
 	 * @author ricky barrette
 	 */
 	public ReportItem(final String key, final String value) {
@@ -49,7 +53,9 @@ public final class ReportItem implements Parcelable {
 		mValue = value;
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see android.os.Parcelable#describeContents()
 	 */
 	@Override
@@ -72,7 +78,9 @@ public final class ReportItem implements Parcelable {
 		return mValue;
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see android.os.Parcelable#writeToParcel(android.os.Parcel, int)
 	 */
 	@Override

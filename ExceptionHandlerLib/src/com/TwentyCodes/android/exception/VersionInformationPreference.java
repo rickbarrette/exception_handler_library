@@ -20,7 +20,9 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 /**
- * this class will be a simple preference that contains only a text view that will display the application build information
+ * this class will be a simple preference that contains only a text view that
+ * will display the application build information
+ * 
  * @author ricky barrette
  */
 public class VersionInformationPreference extends Preference {
@@ -29,6 +31,7 @@ public class VersionInformationPreference extends Preference {
 
 	/**
 	 * creates a preference that is nothing but a text view
+	 * 
 	 * @param context
 	 */
 	public VersionInformationPreference(final Context context) {
@@ -38,6 +41,7 @@ public class VersionInformationPreference extends Preference {
 
 	/**
 	 * creates a preference that is nothing but a text view
+	 * 
 	 * @param context
 	 * @param attrs
 	 */
@@ -48,6 +52,7 @@ public class VersionInformationPreference extends Preference {
 
 	/**
 	 * creates a preference that is nothing but a text view
+	 * 
 	 * @param context
 	 * @param attrs
 	 * @param defStyle
@@ -57,17 +62,16 @@ public class VersionInformationPreference extends Preference {
 		mContext = context;
 	}
 
-
 	/**
-	 * creates a linear layout the contains only a textview.
-	 * (non-Javadoc)
+	 * creates a linear layout the contains only a textview. (non-Javadoc)
+	 * 
 	 * @see android.preference.Preference#onCreateView(android.view.ViewGroup)
 	 * @param parent
 	 * @return
 	 * @author ricky barrette
 	 */
 	@Override
-	protected View onCreateView(final ViewGroup parent){
+	protected View onCreateView(final ViewGroup parent) {
 
 		/*
 		 * get the build information, and build the string
@@ -77,29 +81,30 @@ public class VersionInformationPreference extends Preference {
 		try {
 			pi = pm.getPackageInfo(mContext.getPackageName(), 0);
 		} catch (final NameNotFoundException eNnf) {
-			//doubt this will ever run since we want info about our own package
+			// doubt this will ever run since we want info about our own package
 			pi = new PackageInfo();
 			pi.versionName = "unknown";
 			pi.versionCode = 1;
 		}
 
 		/*
-		 * create a vertical linear layout that width and height that wraps content
+		 * create a vertical linear layout that width and height that wraps
+		 * content
 		 */
 		final LinearLayout layout = new LinearLayout(getContext());
 		final LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT);
-		//		params.gravity = Gravity.CENTER;
+		// params.gravity = Gravity.CENTER;
 		layout.setPadding(15, 5, 10, 5);
 		layout.setOrientation(LinearLayout.VERTICAL);
 
 		layout.removeAllViews();
 
 		/*
-		 * create a textview that will be used to display the application's name and build information
-		 * and add it to the layout
+		 * create a textview that will be used to display the application's name
+		 * and build information and add it to the layout
 		 */
 		final TextView title = new TextView(getContext());
-		title.setText(mContext.getString(R.string.version)+" "+pi.versionName+" bulid "+pi.versionCode);
+		title.setText(mContext.getString(R.string.version) + " " + pi.versionName + " bulid " + pi.versionCode);
 		title.setTextSize(16);
 		title.setTypeface(Typeface.SANS_SERIF);
 		title.setGravity(Gravity.LEFT);
